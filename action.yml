@@ -1,0 +1,25 @@
+name: 'build-uploader'
+description: 'Upload a build to Treasure'
+author: 'Treasure <engineering@treasure.lol>'
+inputs:
+  apiKey:
+    description: 'Treasure API key'
+    required: true
+  apiBaseUrl:
+    description: 'Treasure API base URL'
+    required: true
+  gameId:
+    description: 'Game ID'
+    required: true
+  windowsBuildPath:
+    description: 'Path to Windows build'
+    required: false
+  macosBuildPath:
+    description: 'Path to macOS build'
+    required: false
+outputs:
+  buildId:
+    description: 'Build ID'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
