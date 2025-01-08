@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "ncc build src/index.ts -o dist -m"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
-    "tsx": "^3.14.0",
+    "@vercel/ncc": "^0.38.3",
     "typescript": "^5.7.2"
   }
 }
