@@ -14,6 +14,26 @@ const main = async () => {
 
     console.log(`Creating tag and release for version: v${version}`);
 
+    let lastTag = '';
+    try {
+      lastTag = execSync('git describe --tags --abbrev=0').toString().trim();
+      console.log(`Last release tag: ${lastTag}`);
+    } catch {
+      console.log('No previous tag found. This is the first release.');
+    }
+
+    const commitRange = lastTag ? `${lastTag}..HEAD` : 'HEAD';
+    const releaseNotes = execSync(
+      `git log ${commitRange} --pretty=format:"* %s (%h)"`
+    ).toString();
+
+    if (!releaseNotes) {
+      console.log('No new commits since the last release.');
+    } else {
+      console.log('Generated release notes:');
+      console.log(releaseNotes);
+    }
+
     execSync(`git tag -a v${version} -m "Release v${version}"`, {
       stdio: 'inherit',
     });
@@ -23,7 +43,7 @@ const main = async () => {
     });
 
     execSync(
-      `gh release create v${version} --title "Release v${version}" --notes "Automated release for version v${version}"`,
+      `gh release create v${version} --title "Release v${version}" --notes "${releaseNotes || 'No changes'}"`,
       {
         stdio: 'inherit',
       }
