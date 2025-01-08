@@ -4,7 +4,6 @@ import path from 'path';
 
 const main = async () => {
   try {
-    // Read the package.json file
     const packageJsonPath = path.resolve(process.cwd(), 'package.json');
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
     const version = packageJson.version;
@@ -15,19 +14,38 @@ const main = async () => {
 
     console.log(`Creating tag and release for version: v${version}`);
 
-    // Create a Git tag
+    let lastTag = '';
+    try {
+      lastTag = execSync('git describe --tags --abbrev=0').toString().trim();
+      console.log(`Last release tag: ${lastTag}`);
+    } catch {
+      console.log('No previous tag found. This is the first release.');
+    }
+
+    const commitRange = lastTag ? `${lastTag}..HEAD` : 'HEAD';
+    const releaseNotes = execSync(
+      `git log ${commitRange} --pretty=format:"* %s (%h)" --no-merges | grep -v 'github-actions\$begin:math:display$bot\\$end:math:display$'`
+    ).toString();
+
+    if (!releaseNotes) {
+      console.log(
+        'No new commits since the last release (excluding bot commits).'
+      );
+    } else {
+      console.log('Generated release notes:');
+      console.log(releaseNotes);
+    }
+
     execSync(`git tag -a v${version} -m "Release v${version}"`, {
       stdio: 'inherit',
     });
 
-    // Push the tag to the remote repository
     execSync(`git push origin v${version}`, {
       stdio: 'inherit',
     });
 
-    // Create a GitHub release
     execSync(
-      `gh release create v${version} --title "Release v${version}" --notes "Automated release for version v${version}"`,
+      `gh release create v${version} --title "Release v${version}" --notes "${releaseNotes || 'No changes'}"`,
       {
         stdio: 'inherit',
       }
