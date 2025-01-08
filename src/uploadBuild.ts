@@ -1,3 +1,4 @@
+import * as core from '@actions/core';
 import fs from 'node:fs/promises';
 import { CHUNK_SIZE } from './utils';
 
@@ -25,15 +26,15 @@ export async function uploadBuild({
   macGameName: string | null;
 }) {
   try {
-    console.log(`Opening file: ${filePath}`);
+    core.info(`Starting ${platform} build upload with file: ${filePath}`);
     const fileHandle = await fs.open(filePath);
     const stats = await fileHandle.stat();
     const totalChunks = Math.ceil(stats.size / CHUNK_SIZE);
-    console.log(`File size: ${stats.size} bytes, Total chunks: ${totalChunks}`);
+    core.info(`File size: ${stats.size} bytes, Total chunks: ${totalChunks}`);
 
     for (let i = 0; i < totalChunks; i++) {
       try {
-        console.log(`Uploading chunk ${i + 1}/${totalChunks}`);
+        core.info(`Uploading chunk ${i + 1}/${totalChunks}`);
         const buffer = Buffer.alloc(CHUNK_SIZE);
         const { bytesRead } = await fileHandle.read(
           buffer,
@@ -41,7 +42,7 @@ export async function uploadBuild({
           CHUNK_SIZE,
           i * CHUNK_SIZE
         );
-        console.log(`Read ${bytesRead} bytes for chunk ${i + 1}`);
+        core.info(`Read ${bytesRead} bytes for chunk ${i + 1}`);
 
         const body = new FormData();
         body.append('windowsChunkTotal', windowsChunkTotal.toString());
@@ -79,7 +80,7 @@ export async function uploadBuild({
             `Failed to upload chunk ${i + 1}: ${chunkResponse.status}`
           );
         }
-        console.log(`Successfully uploaded chunk ${i + 1}/${totalChunks}`);
+        core.info(`Successfully uploaded chunk ${i + 1}/${totalChunks}`);
       } catch (error) {
         await fileHandle.close();
         throw error;
@@ -87,7 +88,7 @@ export async function uploadBuild({
     }
 
     await fileHandle.close();
-    console.log(`Completed uploading all chunks for platform: ${platform}`);
+    core.info(`Completed uploading all chunks for platform: ${platform}`);
   } catch (error) {
     console.error(
       `Error uploading build for platform ${platform} ${apiBaseUrl}:`,

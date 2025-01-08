@@ -16,9 +16,9 @@ export async function run() {
     required: false,
   });
 
-  console.log('Starting build upload process');
-  console.log(`API Base URL: ${apiBaseUrl}`);
-  console.log(`Game ID: ${gameId}`);
+  core.info('Starting build upload process');
+  core.info(`API Base URL: ${apiBaseUrl}`);
+  core.info(`Game ID: ${gameId}`);
 
   const windowsStats = windowsBuildPath
     ? await fs.stat(windowsBuildPath)
@@ -30,26 +30,15 @@ export async function run() {
     : 0;
   const macChunkTotal = macStats ? Math.ceil(macStats.size / CHUNK_SIZE) : 0;
 
-  console.log(
-    `Windows chunks: ${windowsChunkTotal}, Mac chunks: ${macChunkTotal}`
-  );
-
   const windowsGameName = windowsBuildPath
     ? extractGameName(windowsBuildPath)
     : null;
   const macGameName = macosBuildPath ? extractGameName(macosBuildPath) : null;
 
-  console.log(
-    `Windows game name: ${windowsGameName}, Mac game name: ${macGameName}`
-  );
-
-  const initialPlatform = windowsBuildPath ? 'windows' : 'mac';
-
   const buildId = await createBuild({
     apiKey,
     apiBaseUrl,
     gameId,
-    platform: initialPlatform,
     windowsChunkTotal,
     macChunkTotal,
     windowsGameName,
@@ -57,7 +46,6 @@ export async function run() {
   });
 
   if (windowsBuildPath) {
-    console.log('Starting Windows build upload');
     await uploadBuild({
       apiKey,
       apiBaseUrl,
@@ -73,7 +61,6 @@ export async function run() {
   }
 
   if (macosBuildPath) {
-    console.log('Starting Mac build upload');
     await uploadBuild({
       apiKey,
       apiBaseUrl,
@@ -94,4 +81,7 @@ export async function run() {
     gameId,
     buildId,
   });
+
+  core.setOutput('buildId', buildId);
+  core.info('Build upload process completed successfully');
 }

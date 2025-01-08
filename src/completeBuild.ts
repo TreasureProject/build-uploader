@@ -1,3 +1,5 @@
+import * as core from '@actions/core';
+
 export async function completeBuild({
   apiKey,
   apiBaseUrl,
@@ -9,7 +11,7 @@ export async function completeBuild({
   gameId: string;
   buildId: string;
 }) {
-  console.log('Marking build as complete');
+  core.info('Marking build as complete');
   await fetch(
     `${apiBaseUrl}/v3/dashboard/games/${gameId}/builds/${buildId}/complete`,
     {
@@ -19,5 +21,4 @@ export async function completeBuild({
       },
     }
   );
-  console.log('Build upload process completed successfully');
 }

@@ -18,7 +18,7 @@ inputs:
     description: 'Path to macOS build'
     required: false
 outputs:
-  build-id:
+  buildId:
     description: 'Build ID'
 runs:
   using: 'node20'

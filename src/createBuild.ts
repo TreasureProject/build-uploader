@@ -1,8 +1,9 @@
+import * as core from '@actions/core';
+
 export async function createBuild({
   apiKey,
   apiBaseUrl,
   gameId,
-  platform,
   windowsChunkTotal,
   macChunkTotal,
   windowsGameName,
@@ -11,7 +12,6 @@ export async function createBuild({
   apiKey: string;
   apiBaseUrl: string;
   gameId: string;
-  platform: 'windows' | 'mac';
   windowsChunkTotal: number;
   macChunkTotal: number;
   windowsGameName: string | null;
@@ -21,7 +21,6 @@ export async function createBuild({
   body.append('windowsChunkTotal', windowsChunkTotal.toString());
   body.append('macChunkTotal', macChunkTotal.toString());
   body.append('chunkNumber', '0');
-  body.append('platform', platform);
   body.append('isBuildComplete', 'false');
   if (windowsGameName) {
     body.append('windowsGameName', windowsGameName);
@@ -33,7 +32,7 @@ export async function createBuild({
     throw new Error('Either windowsGameName or macGameName must be provided');
   }
 
-  console.log(`Initializing build for platform: ${platform}`);
+  core.info('Initializing build');
   const initResponse = await fetch(
     `${apiBaseUrl}/v3/dashboard/games/${gameId}/builds`,
     {
@@ -53,6 +52,6 @@ export async function createBuild({
   }
 
   const { result: buildId } = await initResponse.json();
-  console.log(`Build initialized with ID: ${buildId}`);
+  core.info(`Build initialized with ID: ${buildId}`);
   return buildId;
 }
