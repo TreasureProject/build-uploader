@@ -9,7 +9,7 @@
     "lint": "eslint",
     "prettier": "prettier --write .",
     "package:changeset": "changeset",
-    "package:version": "changeset version",
+    "package:version": "pnpm build && changeset version",
     "package:publish": "tsx ./scripts/release.ts"
   },
   "repository": {
