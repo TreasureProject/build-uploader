@@ -83,5 +83,4 @@ export async function run() {
   });
 
   core.setOutput('buildId', buildId);
-  core.info('Build upload process completed successfully');
 }
