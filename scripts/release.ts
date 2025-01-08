@@ -24,11 +24,13 @@ const main = async () => {
 
     const commitRange = lastTag ? `${lastTag}..HEAD` : 'HEAD';
     const releaseNotes = execSync(
-      `git log ${commitRange} --pretty=format:"* %s (%h)"`
+      `git log ${commitRange} --pretty=format:"* %s (%h)" --no-merges | grep -v 'github-actions\$begin:math:display$bot\\$end:math:display$'`
     ).toString();
 
     if (!releaseNotes) {
-      console.log('No new commits since the last release.');
+      console.log(
+        'No new commits since the last release (excluding bot commits).'
+      );
     } else {
       console.log('Generated release notes:');
       console.log(releaseNotes);
