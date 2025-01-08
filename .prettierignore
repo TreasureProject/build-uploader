@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-coverage
 .idea/
-.eslintrc.js
-kubernetes
+dist
+eslint.config.js
+pnpm-lock.yaml

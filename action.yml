@@ -2,19 +2,19 @@ name: 'build-uploader'
 description: 'Upload a build to Treasure'
 author: 'Treasure <engineering@treasure.lol>'
 inputs:
-  api-key:
+  apiKey:
     description: 'Treasure API key'
     required: true
-  api-base-url:
+  apiBaseUrl:
     description: 'Treasure API base URL'
     required: true
-  game-id:
+  gameId:
     description: 'Game ID'
     required: true
-  windows-build-path:
+  windowsBuildPath:
     description: 'Path to Windows build'
     required: false
-  macos-build-path:
+  macosBuildPath:
     description: 'Path to macOS build'
     required: false
 outputs:
