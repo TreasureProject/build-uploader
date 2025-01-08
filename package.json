@@ -8,7 +8,8 @@
     "build": "ncc build src/index.ts -o dist -m",
     "lint": "eslint",
     "prettier": "prettier --write .",
-    "package:changeset": "changeset"
+    "package:changeset": "changeset",
+    "package:version": "changeset version"
   },
   "repository": {
     "type": "git",
