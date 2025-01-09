@@ -35,6 +35,20 @@ export async function run(): Promise<string> {
     : null;
   const macGameName = macosBuildPath ? extractGameName(macosBuildPath) : null;
 
+  if (windowsBuildPath) {
+    core.info(`Upload Windows build: ${windowsBuildPath}`);
+    core.info(`Windows game name: ${windowsGameName}`);
+    core.info(`Windows file bytes: ${windowsStats ? windowsStats.size : 0}`);
+    core.info(`Windows chunk total: ${windowsChunkTotal}`);
+  }
+
+  if (macosBuildPath) {
+    core.info(`Upload macOS build: ${macosBuildPath}`);
+    core.info(`macOS game name: ${macGameName}`);
+    core.info(`macOS file bytes: ${macStats ? macStats.size : 0}`);
+    core.info(`macOS chunk total: ${macChunkTotal}`);
+  }
+
   const buildId = await createBuild({
     apiKey,
     apiBaseUrl,
