@@ -45,7 +45,7 @@ const main = async () => {
     });
 
     execSync(
-      `gh release create v${version} --title "Release v${version}" --notes "${releaseNotes || 'No changes'}"`,
+      `gh release create v${version} --title "v${version}" --notes "${releaseNotes || 'No changes'}"`,
       {
         stdio: 'inherit',
       }
