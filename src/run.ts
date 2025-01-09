@@ -5,14 +5,14 @@ import { createBuild } from './createBuild';
 import { uploadBuild } from './uploadBuild';
 import { completeBuild } from './completeBuild';
 
-export async function run() {
+export async function run(): Promise<string> {
   const apiKey = core.getInput('apiKey', { required: true });
   const apiBaseUrl = core.getInput('apiBaseUrl', { required: true });
   const gameId = core.getInput('gameId', { required: true });
-  const windowsBuildPath: string | null = core.getInput('windowsBuildPath', {
+  const windowsBuildPath = core.getInput('windowsBuildPath', {
     required: false,
   });
-  const macosBuildPath: string | null = core.getInput('macosBuildPath', {
+  const macosBuildPath = core.getInput('macosBuildPath', {
     required: false,
   });
 
@@ -75,4 +75,5 @@ export async function run() {
   });
 
   core.setOutput('buildId', buildId);
+  return buildId;
 }
