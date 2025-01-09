@@ -49,6 +49,32 @@ const main = async () => {
       stdio: 'inherit',
     });
 
+    const [major, minor] = version.split('.');
+    const majorTag = `v${major}`;
+    const minorTag = `v${major}.${minor}`;
+
+    try {
+      execSync(`git tag -f ${majorTag}`, { stdio: 'inherit' });
+
+      execSync(`git push origin ${majorTag} --force`, {
+        stdio: 'inherit',
+      });
+      console.log(`Updated tag: ${majorTag}`);
+    } catch (error: any) {
+      console.error(`Failed to update ${majorTag}:`, error.message);
+    }
+
+    try {
+      execSync(`git tag -f ${minorTag}`, { stdio: 'inherit' });
+
+      execSync(`git push origin ${minorTag} --force`, {
+        stdio: 'inherit',
+      });
+      console.log(`Updated tag: ${minorTag}`);
+    } catch (error: any) {
+      console.error(`Failed to update ${minorTag}:`, error.message);
+    }
+
     execSync(
       `gh release create v${version} --title "v${version}" --notes "${releaseNotes || 'No changes'}"`,
       {
@@ -57,8 +83,8 @@ const main = async () => {
     );
 
     console.log(`Successfully created and pushed release v${version}`);
-  } catch (error) {
-    console.error('Error creating release:', (error as Error).message);
+  } catch (error: any) {
+    console.error('Error creating release:', error.message);
     process.exit(1);
   }
 };
