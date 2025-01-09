@@ -1,5 +1,11 @@
 # build-uploader
 
+## 1.0.3
+
+### Patch Changes
+
+- 652ce29: Better logging with file information
+
 ## 1.0.2
 
 ### Patch Changes
