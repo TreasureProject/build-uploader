@@ -24,7 +24,7 @@ const main = async () => {
 
     const commitRange = lastTag ? `${lastTag}..HEAD` : 'HEAD';
     const releaseNotes = execSync(
-      `git log ${commitRange} --pretty=format:"* %s (%h)" --no-merges | grep -v 'github-actions\$begin:math:display$bot\\$end:math:display$'`
+      `git log ${commitRange} --pretty=format:"* %s (%h)" --no-merges | grep -v "Version Packages"`
     ).toString();
 
     if (!releaseNotes) {
@@ -45,7 +45,7 @@ const main = async () => {
     });
 
     execSync(
-      `gh release create v${version} --title "Release v${version}" --notes "${releaseNotes || 'No changes'}"`,
+      `gh release create v${version} --title "v${version}" --notes "${releaseNotes || 'No changes'}"`,
       {
         stdio: 'inherit',
       }
