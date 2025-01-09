@@ -23,17 +23,17 @@ const main = async () => {
     }
 
     const commitRange = lastTag ? `${lastTag}..HEAD` : 'HEAD';
-    const releaseNotes = execSync(
-      `git log ${commitRange} --pretty=format:"* %s (%h)" --no-merges | grep -v "Version Packages"`
-    ).toString();
-
-    if (!releaseNotes) {
-      console.log(
-        'No new commits since the last release (excluding bot commits).'
-      );
-    } else {
+    let releaseNotes = undefined;
+    try {
+      releaseNotes = execSync(
+        `git log ${commitRange} --pretty=format:"* %s (%h)" | grep -v "Version Packages"`
+      ).toString();
       console.log('Generated release notes:');
       console.log(releaseNotes);
+    } catch (error: any) {
+      console.log(
+        `Failed to generate release notes due to error: ${error.message}`
+      );
     }
 
     execSync(`git tag -a v${version} -m "Release v${version}"`, {
