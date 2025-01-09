@@ -36,9 +36,14 @@ const main = async () => {
       );
     }
 
-    execSync(`git tag -a v${version} -m "Release v${version}"`, {
-      stdio: 'inherit',
-    });
+    try {
+      execSync(`git tag -a v${version} -m "Release v${version}"`, {
+        stdio: 'inherit',
+      });
+    } catch {
+      console.log('Tag already exists. Skipping...');
+      process.exit(0);
+    }
 
     execSync(`git push origin v${version}`, {
       stdio: 'inherit',
