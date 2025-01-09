@@ -50,7 +50,6 @@ export async function uploadBuild({
         body.append('chunkNumber', (i + 1).toString());
         body.append('platform', platform);
         body.append('buildId', buildId);
-        body.append('isBuildComplete', 'false');
         body.append('buildChunk', new Blob([buffer.subarray(0, bytesRead)]));
         if (windowsGameName) {
           body.append('windowsGameName', windowsGameName);
