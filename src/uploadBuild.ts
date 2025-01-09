@@ -22,7 +22,6 @@ export async function uploadBuild({
     const fileHandle = await fs.open(filePath);
     const stats = await fileHandle.stat();
     const totalChunks = Math.ceil(stats.size / CHUNK_SIZE);
-    core.info(`File size: ${stats.size} bytes, Total chunks: ${totalChunks}`);
 
     for (let i = 0; i < totalChunks; i++) {
       try {
