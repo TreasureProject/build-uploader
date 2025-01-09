@@ -52,11 +52,7 @@ export async function run() {
       gameId,
       platform: 'windows',
       filePath: windowsBuildPath,
-      windowsChunkTotal,
-      macChunkTotal,
       buildId,
-      windowsGameName,
-      macGameName,
     });
   }
 
@@ -67,11 +63,7 @@ export async function run() {
       gameId,
       platform: 'mac',
       filePath: macosBuildPath,
-      windowsChunkTotal,
-      macChunkTotal,
       buildId,
-      windowsGameName,
-      macGameName,
     });
   }
 

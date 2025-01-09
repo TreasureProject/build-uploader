@@ -8,22 +8,14 @@ export async function uploadBuild({
   gameId,
   platform,
   filePath,
-  windowsChunkTotal,
-  macChunkTotal,
   buildId,
-  windowsGameName,
-  macGameName,
 }: {
   apiKey: string;
   apiBaseUrl: string;
   gameId: string;
   platform: 'windows' | 'mac';
   filePath: string;
-  windowsChunkTotal: number;
-  macChunkTotal: number;
   buildId: string;
-  windowsGameName: string | null;
-  macGameName: string | null;
 }) {
   try {
     core.info(`Starting ${platform} build upload with file: ${filePath}`);
@@ -45,24 +37,10 @@ export async function uploadBuild({
         core.info(`Read ${bytesRead} bytes for chunk ${i + 1}`);
 
         const body = new FormData();
-        body.append('windowsChunkTotal', windowsChunkTotal.toString());
-        body.append('macChunkTotal', macChunkTotal.toString());
         body.append('chunkNumber', (i + 1).toString());
         body.append('platform', platform);
         body.append('buildId', buildId);
-        body.append('isBuildComplete', 'false');
         body.append('buildChunk', new Blob([buffer.subarray(0, bytesRead)]));
-        if (windowsGameName) {
-          body.append('windowsGameName', windowsGameName);
-        }
-        if (macGameName) {
-          body.append('macGameName', macGameName);
-        }
-        if (!windowsGameName && !macGameName) {
-          throw new Error(
-            'Either windowsGameName or macGameName must be provided'
-          );
-        }
 
         const chunkResponse = await fetch(
           `${apiBaseUrl}/v3/dashboard/games/${gameId}/builds`,

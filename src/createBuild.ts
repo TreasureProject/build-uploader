@@ -21,7 +21,6 @@ export async function createBuild({
   body.append('windowsChunkTotal', windowsChunkTotal.toString());
   body.append('macChunkTotal', macChunkTotal.toString());
   body.append('chunkNumber', '0');
-  body.append('isBuildComplete', 'false');
   if (windowsGameName) {
     body.append('windowsGameName', windowsGameName);
   }
