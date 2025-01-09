@@ -26,7 +26,7 @@ const main = async () => {
     let releaseNotes = undefined;
     try {
       releaseNotes = execSync(
-        `git log ${commitRange} --pretty=format:"* %s (%h)" --no-merges | grep -v "Version Packages"`
+        `git log ${commitRange} --pretty=format:"* %s (%h)" | grep -v "Version Packages"`
       ).toString();
       console.log('Generated release notes:');
       console.log(releaseNotes);
