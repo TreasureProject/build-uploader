@@ -33,7 +33,7 @@ export async function createBuild({
 
   core.info('Initializing build');
   const initResponse = await fetch(
-    `${apiBaseUrl}/v3/dashboard/games/${gameId}/builds`,
+    `${apiBaseUrl}/v3/upload/games/${gameId}/builds`,
     {
       method: 'POST',
       headers: {
