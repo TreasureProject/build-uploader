@@ -42,7 +42,7 @@ export async function uploadBuild({
         body.append('buildChunk', new Blob([buffer.subarray(0, bytesRead)]));
 
         const chunkResponse = await fetch(
-          `${apiBaseUrl}/v3/dashboard/games/${gameId}/builds`,
+          `${apiBaseUrl}/v3/upload/games/${gameId}/builds`,
           {
             method: 'POST',
             headers: {

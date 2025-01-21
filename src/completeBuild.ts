@@ -13,7 +13,7 @@ export async function completeBuild({
 }) {
   core.info('Marking build as complete');
   await fetch(
-    `${apiBaseUrl}/v3/dashboard/games/${gameId}/builds/${buildId}/complete`,
+    `${apiBaseUrl}/v3/upload/games/${gameId}/builds/${buildId}/complete`,
     {
       method: 'POST',
       headers: {
