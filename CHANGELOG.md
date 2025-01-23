@@ -1,5 +1,11 @@
 # build-uploader
 
+## 1.0.4
+
+### Patch Changes
+
+- 8ba9138: Update upload route
+
 ## 1.0.3
 
 ### Patch Changes
